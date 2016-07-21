@@ -1,0 +1,15 @@
+suites:
+    default:
+        namespace: Evaneos\Api
+        spec_path: %paths.config%/tests/
+        psr4_prefix: Evaneos\Api
+
+extensions:
+#    - PhpSpec\Extension\CodeCoverageExtension
+
+code_coverage:
+    format:
+        - html
+    output:
+        html: tests/output/phpspec
+

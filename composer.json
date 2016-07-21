@@ -1,0 +1,20 @@
+{
+    "autoload": {
+        "psr-4": {
+            "RPN" : "src"
+        }
+    },
+    "config": {
+        "bin-dir": "bin/",
+        "platform": {
+            "php": "5.5.30",
+        }
+    },
+    "require": {
+
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.5",
+        "henrikbjorn/phpspec-code-coverage": "^2.0"
+    }
+}
