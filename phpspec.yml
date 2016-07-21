@@ -5,7 +5,7 @@ suites:
         psr4_prefix: RPN
 
 extensions:
-    - PhpSpec\Extension\CodeCoverageExtension
+#    - PhpSpec\Extension\CodeCoverageExtension
 
 code_coverage:
     format:

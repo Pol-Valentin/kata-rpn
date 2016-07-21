@@ -2,37 +2,51 @@
 
 namespace RPN;
 
+use RPN\Operator\OperatorFactory;
+
 class OperationInput
 {
 
-    const OPERANDS = '+-x\/';
     /**
-     * @var string
+     * @var OperatorFactory
      */
-    private $input;
+    private $operatorsFactory;
 
     /**
      * OperationInput constructor.
-     * @param string $input
+     * @param OperatorFactory $operatorsFactory
      */
-    public function __construct($input, OperatorFactory $operatorsFactory)
+    public function __construct(OperatorFactory $operatorsFactory)
     {
-        $this->input = $input;
+        $this->operatorsFactory = $operatorsFactory;
     }
 
-    public function calculate()
+    public function calculate($input)
     {
-        $result = [];
-        foreach (explode(' ', $this->input) as $member) {
-            $result[] = $this->buildMember();
-        }
+        $members = $this->buildMembers($input);
 
-        return $this->transform($result);
+        return $this->transform($members);
     }
 
     private function transform($result)
     {
-        if (count($result) === 3) {
+
+        if (count($result) == 1) {
+            return ($result[0]);
+        }
+
+        foreach ($result as $key => $member) {
+            if ($member instanceof Operator) {
+                $calculatedValue = $member->applyTo($result[$key - 2], $result[$key - 1]);
+                $result[$key] = $calculatedValue;
+                unset($result[$key - 1]);
+                unset($result[$key - 2]);
+
+                return $this->transform(array_values($result));
+            }
+        }
+
+        /*if (count($result) === 3) {
             $result = eval(
                 'return ' . $result[0]
                 . $result[2]
@@ -54,7 +68,7 @@ class OperationInput
                 unset($result[$index + 1]);
                 unset($result[$index + 2]);
                 return $this->transform(array_values($result));
-            }
+            }*/
     }
 
     private function buildMember($member)
@@ -62,10 +76,20 @@ class OperationInput
         if (is_numeric($member)) {
             return new Operand($member);
         }
-        for ($operators as $operator) {
-            if ($operator::validate($member)) {
-                return $operator;
-            }
+        return $this->operatorsFactory->build($member);
+    }
+
+    /**
+     * @param $input
+     * @return array
+     */
+    public function buildMembers($input)
+    {
+        $result = [];
+        foreach (explode(' ', $input) as $member) {
+            $result[] = $this->buildMember($member);
+        }
+        return $result;
     }
 
 

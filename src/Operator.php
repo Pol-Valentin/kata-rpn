@@ -4,5 +4,7 @@ namespace RPN;
 
 interface Operator
 {
-    public function applyTo(Opperand $opperand1, Opperrand $opperrand2);
+    static function canHandle($member);
+
+    public function applyTo(Operand $opperand1, Operand $opperrand2);
 }

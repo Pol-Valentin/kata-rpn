@@ -1,14 +1,22 @@
 <?php
 
-namespace RPN;
+namespace RPN\Operator;
+
+use RPN\Operand;
+use RPN\Operator;
 
 class Substract implements Operator
 {
     const OPERATOR = '-';
 
-    public function applyTo(Opperand $opperand1, Opperrand $opperrand2)
+    static function canHandle($member)
     {
-        return $opperand1 - $opperrand2;
+        return $member == self::OPERATOR;
+    }
+
+    public function applyTo(Operand $opperand1, Operand $opperrand2)
+    {
+        return new Operand($opperand1->toScalar() - $opperrand2->toScalar());
     }
 
 }

@@ -6,7 +6,7 @@
  * Time: 18:31
  */
 
-namespace RPN;
+namespace RPN\Operator;
 
 
 class OperatorFactory
@@ -26,8 +26,8 @@ class OperatorFactory
     public function build($member)
     {
         foreach ($this->operators as $operator) {
-            if ($operator->) {
-
+            if ($operator::canHandle($member)) {
+                return new $operator();
             }
         }
     }
