@@ -3,95 +3,28 @@
 namespace spec\RPN;
 
 use PhpSpec\ObjectBehavior;
-use RPN\Parser;
+use RPN\OperationInput;
 
-class ParserSpec extends ObjectBehavior
+class OperationInputSpec extends ObjectBehavior
 {
-
-    private $operators = ['-', '+', '/', '*'];
-
-    private $firstOperand;
-
-    private $secondOperand;
-
-    private $firstOperator;
-
-    private $notation;
-    private $thirdOperand;
-    private $secondOperator;
-
-
     public function it_is_initializable()
     {
-        $this->beAnInstanceOf(Parser::class);
+        $this->beAnInstanceOf(OperationInput::class);
     }
 
-    public function it_should_extract_simple_operation_to_two_number_and_one_operand()
+    public function it_should_calculate_simple_operation_to_two_number_and_one_operand()
     {
-        $this->given_there_is_a_simple_operation();
-
-        $this->extract($this->notation)
-            ->shouldBe(
-                [
-                    $this->firstOperand,
-                    $this->secondOperand,
-                    $this->firstOperator
-                ]
-            );
+        $notation = '5 3 +';
+        $this->beConstructedWith($notation);
+        $this->calculate()
+            ->shouldBe(8);
     }
 
-    public function it_should_extract_two_simple_operation_to_two_nested_operation()
+    public function it_should_calculate_two_simple_operation_to_two_nested_operation()
     {
-        $this->given_there_is_two_followed_simple_operation();
-        echo $this->notation . "\n";
-        $this->extract($this->notation)
-            ->shouldBe(
-                [
-                    $this->firstOperand,
-                    [
-                        $this->secondOperand,
-                        $this->thirdOperand,
-                        $this->firstOperator
-                    ],
-                    $this->secondOperator
-                ]
-            );
-    }
-
-    private function given_there_is_a_simple_operation()
-    {
-        $this->firstOperand = rand(0, 1000);
-
-        $this->secondOperand = rand(0, 1000);
-
-        $this->firstOperator = $this->operators[array_rand($this->operators)];
-
-        $this->notation = sprintf(
-            '%d %d %s',
-            $this->firstOperand,
-            $this->secondOperand,
-            $this->firstOperator
-        );
-    }
-
-    private function given_there_is_two_followed_simple_operation()
-    {
-        $this->firstOperand = rand();
-
-        $this->secondOperand = rand();
-
-        $this->thirdOperand = rand();
-
-        $this->firstOperator = $this->operators[array_rand($this->operators)];
-        $this->secondOperator = $this->operators[array_rand($this->operators)];
-
-        $this->notation = sprintf(
-            '%d %d %d %s %s',
-            $this->firstOperand,
-            $this->secondOperand,
-            $this->thirdOperand,
-            $this->firstOperator,
-            $this->secondOperator
-        );
+        $notation = '7 5 2 - +';
+        $this->beConstructedWith($notation);
+        $this->calculate()
+            ->shouldBe(10);
     }
 }

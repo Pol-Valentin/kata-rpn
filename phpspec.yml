@@ -1,15 +1,15 @@
 suites:
     default:
-        namespace: Evaneos\Api
+        namespace: RPN
         spec_path: %paths.config%/tests/
-        psr4_prefix: Evaneos\Api
+        psr4_prefix: RPN
 
 extensions:
-#    - PhpSpec\Extension\CodeCoverageExtension
+    - PhpSpec\Extension\CodeCoverageExtension
 
 code_coverage:
     format:
         - html
     output:
-        html: tests/output/phpspec
+        html: tests/output/
 
