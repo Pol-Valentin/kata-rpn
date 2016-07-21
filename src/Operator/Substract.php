@@ -5,7 +5,7 @@ namespace RPN\Operator;
 use RPN\Operand;
 use RPN\Operator;
 
-class Substract implements Operator
+class Substract extends Operator
 {
     const OPERATOR = '-';
 
@@ -14,9 +14,9 @@ class Substract implements Operator
         return $member == self::OPERATOR;
     }
 
-    public function applyTo(Operand $opperand1, Operand $opperrand2)
+    public function applyTo(Operand $operand1, Operand $operand2)
     {
-        return new Operand($opperand1->toScalar() - $opperrand2->toScalar());
+        return new Operand($operand1->toScalar() - $operand2->toScalar());
     }
 
 }

@@ -2,9 +2,14 @@
 
 namespace RPN;
 
-interface Operator
+abstract class Operator implements Token
 {
-    static function canHandle($member);
+    abstract static function canHandle($member);
 
-    public function applyTo(Operand $opperand1, Operand $opperrand2);
+    abstract public function applyTo(Operand $operand1, Operand $operand2);
+
+    public function isNumeric()
+    {
+        return false;
+    }
 }

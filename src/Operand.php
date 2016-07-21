@@ -2,7 +2,7 @@
 
 namespace RPN;
 
-class Operand
+class Operand implements Token
 {
     /**
      * @var mixed
@@ -21,5 +21,10 @@ class Operand
     public function toScalar()
     {
         return $this->value;
+    }
+
+    public function isNumeric()
+    {
+        return true;
     }
 }
